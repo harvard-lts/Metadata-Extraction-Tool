@@ -1,0 +1,10 @@
+[PropertyInfo]
+editable,boolean,false,false,editable,editable,true,<default>
+name,String,false,false,name,name,true,<default>
+type,int,false,false,type,type,true,<default>
+values,java.util.ArrayList,false,false,values,values,true,<default>
+[IconNames]
+
+
+
+

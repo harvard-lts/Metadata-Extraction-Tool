@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="metadata-extractor-tool" default="dist">
+	
+    <property name="proj.name" value="metadata"/>
+	<property name="target" value="target" />
+	<property name="dist" value="dist" />
+	<property name="src" value="src/java" />
+	<property name="libs" value="lib" />
+	<property name="xml" value="src/XML" />
+	<property name="javadoc" value="false"/>
+	
+	<property name="version" value="3-6GA"/>
+	
+	
+	<description>
+            National Library New Zealand Te Puna Matauranga o Aotearoa Metadata Extractor Tool ANT Build file
+    </description>
+
+    <!-- The classpath for building the Metadata Extractor contains
+         everything in the lib directory -->
+	<path id="meta.classpath">
+		<fileset dir="lib" includes="*.jar" />
+	</path>
+
+	
+	<!-- Clean the build and deployment directories -->	
+	<target name="clean">
+		<delete dir="${target}" />
+		<delete dir="${dist}/" />
+	</target>
+	
+	
+	<!-- Prepare by creating the required directories -->
+	<target name="prepare" depends="clean">
+		<mkdir dir="${target}/${proj.name}" />
+		<mkdir dir="${dist}/" />
+	</target>
+
+	
+	<!-- Compile all of the classes into the build directory -->
+	<target name="compile" depends="prepare">
+		<javac includeantruntime="false" srcdir="${src}" destdir="${target}/${proj.name}/" includes="**/*.java" source="1.6" debug="true" debuglevel="lines,vars,source">
+			<!-- <compilerarg value="-Xlint:unchecked"/> -->
+			<classpath>
+				<path refid="meta.classpath" />
+			</classpath>
+		</javac>
+	</target>
+
+	
+	<!-- Create the adapter JAR files -->
+	<target name="adapters" depends="compile">
+		<mkdir dir="${dist}/adapters/" />
+
+		<!-- prepare the files for the ARC file adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="arc" />
+			<param name="prm-adapter-name" value="arc" />
+			<param name="prm-adapter-dir" value="arc_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the bmp adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="bmp" />
+			<param name="prm-adapter-name" value="bmp" />
+			<param name="prm-adapter-dir" value="bmp_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the excel adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="excel" />
+			<param name="prm-adapter-name" value="excel" />
+			<param name="prm-adapter-dir" value="excel_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the flac adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="flac" />
+			<param name="prm-adapter-name" value="flac" />
+			<param name="prm-adapter-dir" value="flac_adapter_1_1" />
+		</antcall>
+
+		<!-- prepare the files for the gif adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="gif" />
+			<param name="prm-adapter-name" value="gif" />
+			<param name="prm-adapter-dir" value="gif_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the html adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="html" />
+			<param name="prm-adapter-name" value="html" />
+			<param name="prm-adapter-dir" value="html_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the jpg adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="jpg" />
+			<param name="prm-adapter-name" value="jpg" />
+			<param name="prm-adapter-dir" value="jpg_adapter_1_1" />
+		</antcall>
+
+		<!-- prepare the files for the mp3 adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="mp3" />
+			<param name="prm-adapter-name" value="mp3" />
+			<param name="prm-adapter-dir" value="mp3_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the mp3 adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="jID3LibMp3" />
+			<param name="prm-adapter-name" value="mp3" />
+			<param name="prm-adapter-dir" value="jID3LibMp3_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the mp4 adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="mpeg4" />
+			<param name="prm-adapter-name" value="mpeg4" />
+			<param name="prm-adapter-dir" value="mpeg4_adapter_1_0" />
+		</antcall>
+		
+		<!-- prepare the files for the msword adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="word" />
+			<param name="prm-adapter-name" value="word" />
+			<param name="prm-adapter-dir" value="msword_adapter_3_2" />
+		</antcall>
+
+		<!-- prepare the files for the msworks adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="works" />
+			<param name="prm-adapter-name" value="msworks" />
+			<param name="prm-adapter-dir" value="msworks_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the openoffice adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="openoffice" />
+			<param name="prm-adapter-name" value="openoffice" />
+			<param name="prm-adapter-dir" value="openoffice_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the pdf adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="pdf" />
+			<param name="prm-adapter-name" value="pdf" />
+			<param name="prm-adapter-dir" value="pdf_adapter_1_0" />
+		</antcall>
+		
+		<!-- prepare the files for the pdfbox adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="pdfbox" />
+			<param name="prm-adapter-name" value="pdfbox" />
+			<param name="prm-adapter-dir" value="pdfbox_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the powerpoint adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="powerpoint" />
+			<param name="prm-adapter-name" value="powerpoint" />
+			<param name="prm-adapter-dir" value="powerpoint_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the tiff adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="tiff" />
+			<param name="prm-adapter-name" value="tiff_6_0" />
+			<param name="prm-adapter-dir" value="tiff_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the WARC file adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="warc" />
+			<param name="prm-adapter-name" value="warc" />
+			<param name="prm-adapter-dir" value="warc_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the wave adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="wav" />
+			<param name="prm-adapter-name" value="wav" />
+			<param name="prm-adapter-dir" value="wave_adapter_1_0" />
+		</antcall>
+
+		<!-- prepare the files for the wordperfect adapter -->
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="wordperfect" />
+			<param name="prm-adapter-name" value="wordperfect" />
+			<param name="prm-adapter-dir" value="wordperfect_adapter_1_0" />
+		</antcall>
+		
+		<antcall target="adapter_build">
+			<param name="prm-adapter-type" value="xml" />
+			<param name="prm-adapter-name" value="xml" />
+			<param name="prm-adapter-dir" value="xml_adapter_1_0" />
+		</antcall>		
+	</target>
+
+	
+	
+	
+	<!-- Create the main JAR file -->
+	<target name="meta_jar" depends="adapters">
+	    <mkdir dir="${dist}/lib" />
+	    
+		<copy todir="${target}/${proj.name}">
+			<fileset dir="src/images" includes="*.*" />
+		</copy>
+
+		<jar destfile="${dist}/lib/${proj.name}.jar" basedir="${target}/${proj.name}" compress="false">
+			<include name="*.*" />
+			<include name="nz/govt/natlib/*.class" />
+			<include name="nz/govt/natlib/adapter/*.class" />
+			<include name="nz/govt/natlib/adapter/any/*.class" />
+			<include name="nz/govt/natlib/adapter/exif/*.class" />
+			<include name="nz/govt/natlib/fx/**/*.class" />
+			<include name="nz/govt/natlib/meta/**/*.class" />
+			<include name="nz/govt/natlib/xsl/**/*.class" />
+			<manifest>
+				<attribute name="Class-Path" value="xerces.jar xalan.jar jaxp.jar poi.jar ." />
+				<attribute name="Main-Class" value="nz.govt.natlib.meta.ui.Main" />
+			</manifest>
+		</jar>
+	</target>
+
+	
+	
+	<!-- Create the Java Docs -->
+	<target name="javadoc">
+		<delete dir="docs/apidocs"/>
+		<javadoc destdir="docs/apidocs" useexternalfile="yes" access="public" breakiterator="yes">
+			<classpath>
+				<path refid="meta.classpath" />
+			</classpath>
+			<fileset dir="src" />
+
+			<doctitle><![CDATA[<h1>Metadata Extraction Tool</h1>]]></doctitle>
+		    <bottom><![CDATA[<i></i>]]></bottom>
+		</javadoc>
+	</target>	
+	
+	
+	
+	<!-- Create the distribution copy -->
+	<target name="dist" depends="meta_jar,javadoc">
+		<mkdir dir="${dist}/installed-adapters" />
+		<mkdir dir="${dist}/xml" />
+
+		<copy todir="${dist}">
+			<fileset dir="src/scripts" includes="*" />
+			<fileset dir="src/help" includes="**/*.*" />
+			<fileset dir="src/xml" includes="config*.*" />
+			<fileset dir="." includes="LICENSE"/>
+		</copy>
+		
+		<copy todir="${dist}/docs">
+		    <fileset dir="docs" includes="*"/>
+		</copy>
+		
+		<copy todir="${dist}/legal">
+		    <fileset dir="legal" includes="*"/>
+		</copy>
+		
+		<copy todir="${dist}/lib">
+			<fileset dir="lib" includes="*.jar"/>		
+		</copy>
+
+		<copy todir="${dist}/xml">
+			<fileset dir="src/xml" includes="*.xsd" />
+			<fileset dir="src/xml" includes="*.xslt" />
+			<fileset dir="src/xml" includes="*.dtd" />
+		</copy>
+		
+		<copy todir="dist/installed-adapters">
+		    <fileset dir="dist/adapters"/>
+		</copy>
+		
+		<mkdir dir="${dist}/logs"/>
+		<mkdir dir="${dist}/harvested/nlnz_dd"/>
+		<mkdir dir="${dist}/harvested/native"/>
+		
+		<copy file="src/readme.txt" todir="${dist}/logs"/>
+		<copy file="src/readme.txt" todir="${dist}/harvested/nlnz_dd"/>
+		<copy file="src/readme.txt" todir="${dist}/harvested/native"/>
+
+						
+		<delete file="meta-extractor-bin-${version}.zip"/>
+		<zip destfile="meta-extractor-bin-${version}.zip">
+		    <zipfileset dir="dist" includes="**/*" prefix="metadata-extractor"/>
+		</zip>
+		
+		<delete file="meta-extractor-src-${version}.zip"/>
+		<zip destfile="meta-extractor-src-${version}.zip">
+		    <zipfileset dir="." prefix="metadata-extractor">
+		        <exclude name="dist/**/*"/>
+		        <exclude name="target/**/*"/>
+		        <exclude name="meta-extractor-src*"/>
+		        <exclude name="meta-extractor-bin*"/>
+		    </zipfileset>
+		</zip>
+		
+		<delete file="meta-extractor-bin-${version}.tar.gz"/>
+		<tar destfile="meta-extractor-bin-${version}.tar">
+		    <tarfileset dir="dist" includes="**/*" excludes="**/*.sh" prefix="metadata-extractor"/>
+		    <tarfileset dir="dist" includes="**/*.sh" mode="755" prefix="metadata-extractor"/>
+		</tar>
+		<gzip src="meta-extractor-bin-${version}.tar" destfile="meta-extractor-bin-${version}.tar.gz"/>
+		<delete file="meta-extractor-bin-${version}.tar"/>
+
+		<delete file="meta-extractor-src-${version}.tar.gz"/>
+		<tar destfile="meta-extractor-src-${version}.tar">
+		    <tarfileset dir="."  prefix="metadata-extractor">
+		        <exclude name="dist/**/*"/>
+		        <exclude name="target/**/*"/>
+		        <exclude name="metadata-src*"/>
+		        <exclude name="metadata-bin*"/>
+		        <exclude name="src/scripts/*.sh"/>
+		        <exclude name="meta-extractor-src*"/>
+		        <exclude name="meta-extractor-bin*"/>
+		    </tarfileset>
+		    <tarfileset dir="." includes="src/scripts/*.sh" mode="755"  prefix="metadata-extractor"/>
+		</tar>
+		<gzip src="meta-extractor-src-${version}.tar" destfile="meta-extractor-src-${version}.tar.gz"/>
+		<delete file="meta-extractor-src-${version}.tar"/>
+
+		
+	</target>
+
+	
+	
+	<!-- Build an adapter into a JAR file. -->
+	<target name="adapter_build">
+		<echo message="prepare the files for the ${prm-adapter-type} adapter in dir ${prm-adapter-dir}" />
+		<mkdir dir="${target}/adapters/${prm-adapter-dir}" />
+		<copy todir="${target}/adapters/${prm-adapter-dir}">
+			<fileset dir="${xml}" includes="${prm-adapter-name}_to_nlnz_presmet.xslt" />
+			<fileset dir="${xml}" includes="${prm-adapter-name}.dtd" />
+			<fileset dir="${target}/${proj.name}/" includes="nz/govt/natlib/adapter/${prm-adapter-type}/**/*.class" />
+		</copy>
+
+		<jar destfile="${dist}/adapters/${prm-adapter-dir}.jar" basedir="${target}/adapters/${prm-adapter-dir}" />
+	</target>
+
+	
+	
+
+	<target name="default">
+	</target>
+
+</project>
