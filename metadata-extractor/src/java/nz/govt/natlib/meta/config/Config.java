@@ -143,6 +143,9 @@ public class Config {
 	private static Config instance;
 
 	private static Config editInstance;
+	
+	// custom ClassLoader; system ClassLoader if none set.
+	private static ClassLoader classLoader;
 
 	private ArrayList configMapping;
 
@@ -259,10 +262,28 @@ public class Config {
 	}
 
 	public synchronized static Config getInstance() {
+		if (classLoader == null) {
+			// If no class loader set use default -- the system class loader.
+			Config.classLoader = ClassLoader.getSystemClassLoader();
+		}
 		if (instance == null) {
 			instance = new Config();
 		}
 		return instance;
+	}
+
+	/**
+	 * Allow for the configuration of a ClassLoader other than the
+	 * default system class loader for loading the Adapter classes
+	 * registered in config.xml.
+	 * 
+	 * @param cl - An alternative, custom class loader.
+	 * @see initAdapters(Node)
+	 */
+	public synchronized static void setClassLoader(final ClassLoader cl) {
+		if (cl != null) {
+			Config.classLoader = cl;
+		}
 	}
 
 	public synchronized static Config getEditInstance(boolean renew) {
@@ -683,7 +704,7 @@ public class Config {
 					DataAdapter adapter = null;
 					try {
 						adapter = (DataAdapter) Class.forName(className, true,
-								ClassLoader.getSystemClassLoader())
+								classLoader)
 								.newInstance();
 						String jarName = map.getNamedItem(JAR_TAG)
 								.getNodeValue();
