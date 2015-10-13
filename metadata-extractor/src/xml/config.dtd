@@ -4,7 +4,7 @@
 <!ELEMENT adapter (parameter?)>
 <!ATTLIST adapter
 	class (nz.govt.natlib.adapter.any.DefaultAdapter | nz.govt.natlib.adapter.bmp.BitmapAdapter | nz.govt.natlib.adapter.tiff.TIFFAdapter | nz.govt.natlib.adapter.wav.WaveAdapter | nz.govt.natlib.adapter.word.OLE.WordOLEAdapter | nz.govt.natlib.adapter.word.word2.Word2Adapter | nz.govt.natlib.adapter.xml.XMLAdapter) #REQUIRED
-	output-dtd (bmp.dtd | default.dtd | tiff_6_0.dtd | wav.dtd | word_3_2.dtd | word_ole.dtd) #REQUIRED
+	output-dtd (default.dtd | bmp.dtd | tiff_6_0.dtd | wav.dtd | word_ole.dtd | word.dtd | xml.dtd) #REQUIRED
 >
 <!ELEMENT adapters (adapter+)>
 <!ELEMENT configuration (output-directory, output-dtd?, harvester)>
@@ -19,7 +19,7 @@
 >
 <!ELEMENT input-dtd EMPTY>
 <!ATTLIST input-dtd
-	doc-name (bmp.dtd | default.dtd | tiff_6_0.dtd | wav.dtd | word_3_2.dtd | word_ole.dtd) #REQUIRED
+	doc-name (default.dtd | bmp.dtd | tiff_6_0.dtd | wav.dtd | word_ole.dtd | word.dtd | xml.dtd) #REQUIRED
 >
 <!ELEMENT input-files EMPTY>
 <!ATTLIST input-files
@@ -54,6 +54,6 @@
 >
 <!ELEMENT xslt EMPTY>
 <!ATTLIST xslt
-	doc-name (all_to_dmeta.xslt | bmp_to_pmeta.xslt | default_to_nlnz_file.xslt | default_to_pmeta.xslt | tiff_6_0_to_pmeta.xslt | wav_to_pmeta.xslt | word_2_0_to_pmeta.xslt | word_ole_to_pmeta.xslt) #REQUIRED
+	doc-name (all_to_dmeta.xslt | bmp_to_pmeta.xslt | default_to_nlnz_file.xslt | default_to_pmeta.xslt | tiff_6_0_to_pmeta.xslt | wav_to_pmeta.xslt | word_to_pmeta.xslt | word_ole_to_pmeta.xslt) #REQUIRED
 >
 <!ELEMENT xslt-map (map+)>

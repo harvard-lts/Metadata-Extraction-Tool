@@ -452,7 +452,7 @@ public class Config {
 		// find out where...
 		URL furl = ClassLoader.getSystemResource("saveconfig.xml");
 		// remove spaces - if any...
-		String configPath = URLDecoder.decode(furl.getPath());
+		String configPath = URLDecoder.decode(furl.getPath(), "UTF-8");
 		File configFile = new File(configPath);
 		File backup = new File(configFile.getPath() + ".bak");
 		// backup - if poss
@@ -497,7 +497,7 @@ public class Config {
 			LogManager.getInstance().logMessage(e);
 		}
 		// remove spaces - if any...
-		String configPath = URLDecoder.decode(furl.getPath());
+		String configPath = URLDecoder.decode(furl.getPath(), "UTF-8");
 
 		File configFile = new File(configPath);
 		File backup = new File(configFile.getPath() + ".bak");
