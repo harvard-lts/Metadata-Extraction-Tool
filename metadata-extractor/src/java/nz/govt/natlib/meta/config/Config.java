@@ -471,7 +471,7 @@ public class Config {
 
 	public void writeNewConfig() throws IOException {
 		// find out where...
-		URL furl = ClassLoader.getSystemResource("saveconfig.xml");
+		URL furl = classLoader.getResource("saveconfig.xml");
 		// remove spaces - if any...
 		String configPath = URLDecoder.decode(furl.getPath(), "UTF-8");
 		File configFile = new File(configPath);
@@ -507,7 +507,7 @@ public class Config {
 	public void writeConfig() throws IOException {
 
 		// find out where...
-		URL furl = ClassLoader.getSystemResource("config.xml");
+		URL furl = classLoader.getResource("config.xml");
 		try {
 			writeProfiles();
 			writeAdapters();
@@ -574,7 +574,7 @@ public class Config {
 			// find the file...
 			InputStream cfgFile = null;
 			try {
-				cfgFile = ClassLoader.getSystemResourceAsStream("config.xml");
+				cfgFile = classLoader.getResourceAsStream("config.xml");
 				configDoc = builder.parse(cfgFile);
 			}
 			catch(Throwable t) { 
