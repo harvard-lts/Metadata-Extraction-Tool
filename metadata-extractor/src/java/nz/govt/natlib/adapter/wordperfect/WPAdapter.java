@@ -18,6 +18,7 @@ package nz.govt.natlib.adapter.wordperfect;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Arrays;
 
 import nz.govt.natlib.adapter.AdapterUtils;
 import nz.govt.natlib.adapter.DataAdapter;
@@ -107,11 +108,11 @@ public class WPAdapter extends DataAdapter {
 									"graphics driver (WPD)",
 									"hyphenation lex module",
 									"Printer Q codes (used by VAX/DG)",
-									"Spell code module—word list",
+									"Spell code moduleï¿½word list",
 									"WP.QRS file (WP5.1 equation resource file)",
 									"Reserved", "VAX .SET",
-									"Spell code module—rules",
-									"Dictionary—rules", "Reserved",
+									"Spell code moduleï¿½rules",
+									"Dictionaryï¿½rules", "Reserved",
 									"WP5.1 Graphics/Text Drivers",
 									"Rhymer word file (WPCorp product, TSR)",
 									"Rhymer pronunciation file", "Reserved",
@@ -236,10 +237,16 @@ public class WPAdapter extends DataAdapter {
 		try {
 			ftk = new FileDataSource(file);
 			// Header and default information
-			String head = FXUtil.getFixedStringValue(ftk, 4);
-			if ((head.equals("ÿWPC"))) {
-				wp = true;
-			}
+			byte[] fileHead = ftk.getData(4);
+			// decimal values of expected first 4 bytes of a Word Perfect file
+			byte[] acceptableWordPerfectHead = { -1, 87, 80, 67 };  // {(unprintable),W,P,C} for "ï¿½WPC"
+			// compare inital bytes of input file with expected bytes
+			wp = Arrays.equals(fileHead, acceptableWordPerfectHead);
+			
+//			String head = FXUtil.getFixedStringValue(ftk, 4);
+//			if ((head.equals("ï¿½WPC"))) { // DO NOT USE: different encoding on different platforms
+//				wp = true;
+//			}
 			
 		} catch (IOException ex) {
 			LogManager.getInstance().logMessage(LogMessage.WORTHLESS_CHATTER,
@@ -321,8 +328,8 @@ public class WPAdapter extends DataAdapter {
 						case 0x1:
 							ctx.fireStartParseEvent("summary");
 							summary = true;
-							System.out.println("Found Sumary at :"
-									+ ftk.getPosition());
+							// System.out.println("Found Sumary at :"
+							//		+ ftk.getPosition());
 							summaryElement.read(ftk, ctx);
 							if (fivePointOnePlus) {
 								summary2Element.read(ftk, ctx);
